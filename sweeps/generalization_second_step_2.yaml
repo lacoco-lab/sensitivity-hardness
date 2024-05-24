@@ -1,0 +1,29 @@
+program: train.py
+method: grid
+parameters:
+  basic.max_len:
+    value: 10
+  basic.random_state:
+    min: 0
+    max: 4
+
+  basic.target._target_:
+    value: src.targets.RandomFunc
+  basic.save_prediction:
+    value: False
+  measurements.run:
+    value: True
+
+  basic.target_dir:
+    value: saved_functions/128_512/
+  basic.target_file_idx:
+    min: 0
+    max: 299
+
+name: generalization_second_step_2
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

@@ -1,0 +1,23 @@
+3program: train.py
+method: grid
+parameters:
+  basic.max_len:
+    values: [4, 39, 74, 109, 144, 179, 215, 250, 285, 320, 355, 390, 426, 461, 496, 531, 566, 601, 637, 672, 707, 742, 777, 812, 848, 883, 918, 953, 988, 1024]
+  basic.random_state:
+    min: 0
+    max: 9
+
+  model.hidden_dim:
+    value: 32
+  training.batch_size:
+    value: 128
+  basic.scratchpad:
+    value: True
+
+name: scratchpad
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

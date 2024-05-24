@@ -1,0 +1,61 @@
+basic:
+    max_len: 20                             # maximum length of the input strings
+    min_len: ${basic.max_len}               # minimum length of the input strings (the code supports mixed lengths)
+    target:
+        _target_: src.targets.Parity        # target function: Parity, Majority, Mean, First, or RandomFunc
+        negative_value: 0                   # 0 if the function projects into {0, 1}, -1 if the function projects into {-1, 1}
+    random_state: 42                        # random state for everything
+    use_wandb: True                         # whether to use wandb for logging
+    wandb_run: Null                         # name of wandb run to use
+    device: cuda:0                          # torch device
+    save_model: True                        # whether to save the model parameters
+    scratchpad: False                       # whether to use transformer with a scratchpad
+    restricted_size: Null                   # whether to sample from a predefined set (and its size)
+    save_prediction: False                  # whether to save the model predictions
+    target_seed: Null                       # seed for the target function (relevant for generalization experiments)
+    target_dir: Null                        # directory from where to take the target function (relevant for generalization experiments)
+    target_file_idx: Null                   # index of the file in target_dir
+
+model:
+    hidden_dim: 128                         # hidden dimension of the transformer
+    num_layers: 2                           # number of transformer layers
+    max_len: ${basic.max_len}               # maximum input length
+    num_attn_heads: 2                       # number of attention heads
+    dropout_prob: 0.0                       # dropout probability in attention
+
+training:
+    device: ${basic.device}                 # torch device
+    batch_size: 1024                        # batch size for training
+    num_steps: 10000                        # number of training steps
+    eval_steps: 1000                        # number of evaluation steps
+    lr: 0.0003                              # learning rate
+    max_len: ${basic.max_len}               # maximum input length
+    min_len: ${basic.min_len}               # minimum input length
+    log_interval: 100                       # interval between logging intermediate metrics
+
+    target: ${basic.target}                 # target function
+    criterion:
+        _target_: torch.nn.MSELoss          # loss function (e.g. MSE or BCE)
+    optimizer:
+        _target_: torch.optim.AdamW         # optimizer (e.g. Adam or SGD)
+        lr: ${training.lr}                  # learning rate
+        weight_decay: 0.1                   # weight decay
+
+measurements:
+    run: True                               # whether to measure model's internal metrics after training
+    num_steps: 1000                         # number of steps
+
+    hessian_norm_proxy:
+        epsilon: 0.02                       # scale of added noise
+        n_repeats: 10                       # number of times noise is added and sharpness is measured
+        random_state: 42                    # random state of the noise
+
+    dynamic_run: False                      # whether to measure metrics during training
+    dynamic_interval: 100                   # interval between measuring metrics
+    dynamic_n_batches: 3                    # number of batches to measure metrics on
+
+hydra:
+    job:
+        chdir: True
+    run:
+        dir: ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S.%f}

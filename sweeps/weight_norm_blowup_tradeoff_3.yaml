@@ -1,0 +1,25 @@
+program: train.py
+method: random
+run_cap: 500
+parameters:
+  basic.max_len:
+    values: [5, 10, 15, 20]
+  basic.random_state:
+    min: 0
+    max: 1000
+  basic.target._target_:
+    values: [src.targets.Parity, src.targets.Majority, src.targets.First, src.targets.Mean]
+  training.optimizer.weight_decay:
+    min: 0.0
+    max: 0.4
+  training.lr:
+    min: 0.0001
+    max: 0.0005
+
+name: weight_norm_blowup_tradeoff_3
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

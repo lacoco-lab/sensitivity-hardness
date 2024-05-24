@@ -1,0 +1,19 @@
+program: train.py
+method: grid
+parameters:
+  basic.max_len:
+    min: 4
+    max: 30
+  basic.random_state:
+    min: 0
+    max: 9
+  basic.target._target_:
+    values: [src.targets.Parity, src.targets.Majority, src.targets.First, src.targets.Mean]
+
+name: length_scaling_1
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

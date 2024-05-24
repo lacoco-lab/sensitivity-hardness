@@ -1,0 +1,23 @@
+program: train.py
+method: grid
+parameters:
+  basic.max_len:
+    values: [4,  31,  57,  84, 111, 138, 164, 191, 218, 245, 271, 298, 325, 352, 378, 405, 432, 459, 485, 512]
+  basic.random_state:
+    min: 0
+    max: 9
+  basic.target._target_:
+    values: [src.targets.Majority, src.targets.First, src.targets.Mean]
+
+  training.batch_size:
+    value: 128
+  model.hidden_dim:
+    value: 4
+
+name: length_scaling_2
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

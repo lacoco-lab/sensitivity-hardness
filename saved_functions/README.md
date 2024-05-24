@@ -1,0 +1,1 @@
+This folder is used for storing the Transformer outputs in the generalization experiment.

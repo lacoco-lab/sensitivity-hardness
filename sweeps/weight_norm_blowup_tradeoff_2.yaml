@@ -1,0 +1,24 @@
+program: train.py
+method: random
+run_cap: 1000
+parameters:
+  basic.max_len:
+    min: 4
+    max: 25
+  basic.random_state:
+    min: 0
+    max: 1000
+  training.optimizer.weight_decay:
+    min: 0.0
+    max: 0.4
+  training.lr:
+    min: 0.0001
+    max: 0.0005
+
+name: weight_norm_blowup_tradeoff_2
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

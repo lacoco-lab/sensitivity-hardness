@@ -1,0 +1,28 @@
+program: train.py
+method: grid
+parameters:
+  basic.max_len:
+    value: 10
+  basic.random_state:
+    min: 0
+    max: 9
+
+  basic.target._target_:
+    value: src.targets.RandomFunc
+  basic.target_seed:
+    min: 0
+    max: 9
+  basic.restricted_size:
+    value: 256
+  basic.save_prediction:
+    value: True
+  measurements.run:
+    value: False
+
+name: generalization_first_step_1
+  
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}
